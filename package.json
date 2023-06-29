@@ -4,7 +4,7 @@
   "scripts": {
     "dev": "vite",
     "build": "vite build",
-    "deploy": "rm -rf docs && vite build && mv dist docs && git add --all && git commit -m 'deploy' && git push",
+    "deploy": "rm -rf docs && vite build && mv dist docs && sed -i '' 's/assets/vue-training-movies\\/assets/g' docs/index.html && git add --all && git commit -m 'deploy' && git push",
     "preview": "vite preview --port 4173",
     "test:unit": "vitest --environment jsdom",
     "lint": "eslint . --ext .vue,.js,.jsx,.cjs,.mjs --fix --ignore-path .gitignore",

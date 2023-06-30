@@ -1,9 +1,18 @@
 <script setup>
 import { items } from "./movies.json";
-import { shallowRef } from "vue";
+import { ref, computed } from "vue";
+import { StarIcon } from "@heroicons/vue/24/solid";
 
-const movies = shallowRef(items);
+const movies = ref(items);
 const maxRating = 5;
+const starClasses = computed(() => {
+  return (star, rating) => {
+    return star <= rating ? "text-violet-500" : "text-gray-300";
+  };
+});
+const rate = (star, movie) => {
+  movie.rating = star;
+};
 </script>
 
 <template>
@@ -42,7 +51,26 @@ const maxRating = 5;
           <div class="flex">
             <strong>Rating: ({{ movie.rating }}/{{ maxRating }})</strong>
             <ul class="flex ml-1.5">
-              <li v-for="star in movie.rating" class="ml-1.5">⭐</li>
+              <li
+                v-for="star in maxRating"
+                :key="star"
+                class="flex items-center"
+              >
+                <template v-if="star !== movie.rating">
+                  <button @click="rate(star, movie)">
+                    <StarIcon
+                      class="w-4 h-4"
+                      :class="starClasses(star, movie.rating)"
+                    />
+                  </button>
+                </template>
+                <template v-else>
+                  <StarIcon
+                    class="w-4 h-4"
+                    :class="starClasses(star, movie.rating)"
+                  />
+                </template>
+              </li>
             </ul>
           </div>
         </div>

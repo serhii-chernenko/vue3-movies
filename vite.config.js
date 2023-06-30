@@ -12,7 +12,6 @@ export default defineConfig({
     }
   },
   build: {
-    outDir: 'docs',
-    assetsDir: 'vue-training-movies/assets',
+    outDir: 'docs'
   }
 })

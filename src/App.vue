@@ -23,13 +23,23 @@ const rate = (star, movie) => {
       class="flex w-full sm:w-2/3 md:w-1/2 lg:w-1/3 p-4"
     >
       <div class="flex flex-col rounded-xl overflow-hidden bg-white">
-        <div class="group overflow-hidden">
+        <div class="relative group overflow-hidden">
+          <div
+            v-if="movie.rating"
+            class="absolute z-20 top-2 right-2 flex items-center"
+          >
+            <StarIcon class="relative z-10 w-12 h-12 text-yellow-300" />
+            <span
+              class="absolute z-20 top-0 left-0 w-full h-full flex items-center justify-center"
+              >{{ movie.rating }}</span
+            >
+          </div>
           <img
             :src="movie.image"
             :alt="movie.name"
             width="200"
             height="284"
-            class="w-full mx-auto h-auto ratio-2/3 max-h-[439px] xl:max-h-[560px] 2xl:max-h-[670px] object-cover transition duration-500 ease-in-out transform group-hover:scale-110"
+            class="relative z-10 w-full mx-auto h-auto ratio-2/3 max-h-[439px] xl:max-h-[560px] 2xl:max-h-[670px] object-cover transition duration-500 ease-in-out transform group-hover:scale-110"
           />
         </div>
         <div class="flex flex-col flex-grow p-4">

@@ -5,7 +5,7 @@ import { StarIcon } from "@heroicons/vue/24/solid";
 
 const movies = ref(items);
 const maxRating = 5;
-const showMoviesPerRow = 3;
+const showMoviesPerRowOnDesktop = 3;
 const starClasses = computed(() => {
   return (star, rating) => {
     return star <= rating ? "text-violet-500" : "text-gray-300";
@@ -13,12 +13,12 @@ const starClasses = computed(() => {
 });
 const imageLoadingType = computed(() => {
   return (index) => {
-    return index < showMoviesPerRow ? "eager" : "lazy";
+    return index < showMoviesPerRowOnDesktop ? "eager" : "lazy";
   };
 });
 const imageFetchPriority = computed(() => {
   return (index) => {
-    return index < showMoviesPerRow ? "high" : "low";
+    return index < showMoviesPerRowOnDesktop ? "high" : "low";
   };
 });
 const rate = (star, movie) => {
@@ -197,8 +197,7 @@ const addMovie = () => {
     <li
       v-for="(movie, index) in movies"
       :key="movie.id"
-      class="flex w-full md:w-1/2 p-4"
-      :class="[`sm:w-2/${showMoviesPerRow}`, `lg:w-1/${showMoviesPerRow}`]"
+      class="flex w-full sm:w-2/3 md:w-1/2 lg:w-1/3 p-4"
     >
       <div class="flex flex-col rounded-xl overflow-hidden bg-white">
         <div class="relative group overflow-hidden">

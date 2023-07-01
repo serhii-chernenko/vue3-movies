@@ -3,12 +3,11 @@
   "version": "0.0.0",
   "scripts": {
     "dev": "vite",
-    "build": "vite build",
+    "build": "prettier --write src/ && vite build && sed -i '' 's/assets/vue-training-movies\\/assets/g' docs/index.html",
     "preview": "vite preview --port 4173",
     "test:unit": "vitest --environment jsdom",
     "lint": "eslint . --ext .vue,.js,.jsx,.cjs,.mjs --fix --ignore-path .gitignore",
-    "format": "prettier --write src/",
-    "deploy": "prettier --write src/ && vite build && sed -i '' 's/assets/vue-training-movies\\/assets/g' docs/index.html && git add --all && git commit -m 'deploy' && git push"
+    "format": "prettier --write src/"
   },
   "dependencies": {
     "@heroicons/vue": "^2.0.16",

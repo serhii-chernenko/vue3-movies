@@ -27,5 +27,34 @@
       "genres": ["Action", "Crime", "Drama"],
       "inTheaters": false
     }
+  ],
+  "genres": [
+    "Drama",
+    "Crime",
+    "Action",
+    "Comedy",
+    "Thriller",
+    "Horror",
+    "Adventure",
+    "Fantasy",
+    "Animation",
+    "Romance",
+    "Sci-Fi",
+    "Mystery",
+    "Biography",
+    "History",
+    "War",
+    "Family",
+    "Music",
+    "Western",
+    "Sport",
+    "Musical",
+    "Documentary",
+    "Short",
+    "Film-Noir",
+    "Talk-Show",
+    "News",
+    "Reality-TV",
+    "Game-Show"
   ]
 }

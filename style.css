@@ -1,3 +1,32 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+.hide-scrollbar::-webkit-scrollbar {
+    display: none;
+}
+
+.hide-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+}
+
+.btn-default {
+    @apply py-1 px-4 rounded text-white text-sm tracking-wide font-medium uppercase transition;
+}
+
+.btn-primary {
+    @apply btn-default bg-violet-500;
+}
+
+.btn-primary:hover {
+    @apply bg-violet-600;
+}
+
+.btn-cancel {
+    @apply btn-default bg-red-500;
+}
+
+.btn-cancel:hover {
+    @apply bg-red-600;
+}

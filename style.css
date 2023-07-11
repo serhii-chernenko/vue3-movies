@@ -23,10 +23,22 @@
     @apply bg-violet-600;
 }
 
+.btn-secondary {
+    @apply btn-default bg-gray-400;
+}
+
+.btn-secondary:hover {
+    @apply bg-gray-500;
+}
+
 .btn-cancel {
     @apply btn-default bg-red-500;
 }
 
 .btn-cancel:hover {
     @apply bg-red-600;
+}
+
+.ratio-2\/3 {
+    aspect-ratio: 2/3;
 }

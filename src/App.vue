@@ -296,7 +296,7 @@ const resetRatings = () => {
       </form>
     </div>
     <template v-if="movies.length">
-      <ul class="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
+      <ul class="grid sm:grid-cols-2 lg:grid-cols-3 gap-4 mb-4">
         <li v-for="(movie, index) in movies" :key="movie.id" class="flex">
           <div class="flex flex-col rounded-xl overflow-hidden bg-white">
             <div class="relative group overflow-hidden">

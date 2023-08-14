@@ -1,29 +1,12 @@
 <script setup>
 import { items, genres } from "./movies.json";
 import { ref, computed, nextTick, onMounted, onBeforeUnmount } from "vue";
-import { StarIcon, TrashIcon, PencilIcon } from "@heroicons/vue/24/solid";
+import Movie from "@/components/Movie.vue";
 
 const movies = ref(items);
+
 const maxRating = 5;
 const showMoviesPerRowOnDesktop = 3;
-const starClasses = computed(() => {
-  return (star, rating) => {
-    return star <= rating ? "text-violet-500" : "text-gray-300";
-  };
-});
-const imageLoadingType = computed(() => {
-  return (index) => {
-    return index < showMoviesPerRowOnDesktop ? "eager" : "lazy";
-  };
-});
-const imageFetchPriority = computed(() => {
-  return (index) => {
-    return index < showMoviesPerRowOnDesktop ? "high" : "low";
-  };
-});
-const rate = (star, movie) => {
-  movie.rating = star;
-};
 const isModalOpened = ref(false);
 
 const nameInput = ref(null);
@@ -104,7 +87,9 @@ const addMovie = () => {
 
   nextTick(closeModal);
 };
-const editMovie = (movie) => {
+const editMovie = (id) => {
+  const movie = movies.value.find((movie) => movie.id === id);
+
   name.value = movie.name;
   image.value = movie.image;
   description.value = movie.description;
@@ -297,93 +282,15 @@ const resetRatings = () => {
     </div>
     <template v-if="movies.length">
       <ul class="grid sm:grid-cols-2 lg:grid-cols-3 gap-4 mb-4">
-        <li v-for="(movie, index) in movies" :key="movie.id" class="flex">
-          <div class="flex flex-col rounded-xl overflow-hidden bg-white">
-            <div class="relative group overflow-hidden">
-              <div
-                v-if="movie.rating"
-                class="absolute z-20 top-2 right-2 flex items-center"
-              >
-                <StarIcon class="relative z-10 w-12 h-12 text-yellow-300" />
-                <span
-                  class="absolute z-20 top-0 left-0 w-full h-full flex items-center justify-center"
-                  >{{ movie.rating }}</span
-                >
-              </div>
-              <img
-                :src="movie.image"
-                :alt="movie.name"
-                width="200"
-                height="284"
-                :loading="imageLoadingType(index)"
-                :fetchpriority="imageFetchPriority(index)"
-                class="relative z-10 w-full mx-auto h-auto ratio-2/3 object-cover transition duration-500 ease-in-out transform group-hover:scale-110"
-              />
-            </div>
-            <div class="flex flex-col flex-grow p-4">
-              <div class="flex-grow mb-4">
-                <p class="mb-1">
-                  <strong class="text-2xl">{{ movie.name }}</strong>
-                </p>
-                <ul v-if="movie.genres" class="flex flex-wrap mb-4">
-                  <li
-                    v-for="(genre, index) in movie.genres"
-                    :key="index"
-                    class="bg-violet-500 text-white rounded-full px-2 py-0.25 mr-1 mb-1"
-                  >
-                    {{ genre }}
-                  </li>
-                </ul>
-                <p>{{ movie.description }}</p>
-              </div>
-              <div class="flex justify-between">
-                <div class="flex items-center">
-                  <strong>Rating: ({{ movie.rating }}/{{ maxRating }})</strong>
-                  <ul class="flex ml-1.5">
-                    <li
-                      v-for="star in maxRating"
-                      :key="star"
-                      class="flex items-center"
-                    >
-                      <template v-if="star !== movie.rating">
-                        <button @click="rate(star, movie)">
-                          <StarIcon
-                            class="w-4 h-4"
-                            :class="starClasses(star, movie.rating)"
-                          />
-                        </button>
-                      </template>
-                      <template v-else>
-                        <StarIcon
-                          class="w-4 h-4"
-                          :class="starClasses(star, movie.rating)"
-                        />
-                      </template>
-                    </li>
-                  </ul>
-                </div>
-                <div class="flex items-center">
-                  <button
-                    type="button"
-                    @click="editMovie(movie)"
-                    class="btn-secondary w-10 h-10 !rounded-full flex items-center justify-center mr-2 !p-0"
-                    title="Edit movie"
-                  >
-                    <PencilIcon class="!w-4 !h-4" />
-                  </button>
-                  <button
-                    type="button"
-                    @click="removeMovie(movie.id)"
-                    class="btn-cancel w-10 h-10 !rounded-full flex items-center justify-center !p-0"
-                    title="Remove movie"
-                  >
-                    <TrashIcon class="!w-4 !h-4" />
-                  </button>
-                </div>
-              </div>
-            </div>
-          </div>
-        </li>
+        <Movie
+          v-for="movie in movies"
+          :key="movie.id"
+          :movie="movie"
+          :showMoviesPerRowOnDesktop="showMoviesPerRowOnDesktop"
+          :maxRating="maxRating"
+          @movie-edit="editMovie"
+          @movie-remove="removeMovie"
+        />
       </ul>
     </template>
     <div

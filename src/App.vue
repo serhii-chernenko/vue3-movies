@@ -7,9 +7,12 @@ import {
   onMounted,
   onBeforeUnmount,
   provide,
+  defineAsyncComponent,
 } from "vue";
-import Form from "@/components/Form.vue";
 import Movie from "@/components/Movie.vue";
+
+const Modal = defineAsyncComponent(() => import("@/components/Modal.vue"));
+const Form = defineAsyncComponent(() => import("@/components/Form.vue"));
 
 const movies = ref(items);
 const maxRating = 5;
@@ -166,25 +169,23 @@ const resetRatings = () => {
         </button>
       </div>
     </div>
-    <Form
-      v-if="isModalOpened"
-      @close-modal="closeModal"
-      @movie-add="addMovie"
-      @movie-update="updateMovie"
-    />
-    <template v-if="movies.length">
-      <ul class="grid sm:grid-cols-2 lg:grid-cols-3 gap-4 mb-4">
-        <Movie
-          v-for="movie in movies"
-          :key="movie.id"
-          :movie="movie"
-          :showMoviesPerRowOnDesktop="showMoviesPerRowOnDesktop"
-          :maxRating="maxRating"
-          @movie-edit="editMovie"
-          @movie-remove="removeMovie"
-        />
-      </ul>
-    </template>
+    <Modal v-if="isModalOpened" @close-modal="closeModal">
+      <Form @movie-add="addMovie" @movie-update="updateMovie" />
+    </Modal>
+    <ul
+      v-if="movies.length"
+      class="grid sm:grid-cols-2 lg:grid-cols-3 gap-4 mb-4"
+    >
+      <Movie
+        v-for="movie in movies"
+        :key="movie.id"
+        :movie="movie"
+        :showMoviesPerRowOnDesktop="showMoviesPerRowOnDesktop"
+        :maxRating="maxRating"
+        @movie-edit="editMovie"
+        @movie-remove="removeMovie"
+      />
+    </ul>
     <div
       v-else
       class="flex items-center justify-center py-2 px-4 bg-red-500 text-white rounded"

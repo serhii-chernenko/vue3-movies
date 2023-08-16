@@ -1,17 +1,24 @@
 <script setup>
-import { onMounted, ref, inject } from "vue";
+import { watch, ref, inject } from "vue";
 import { genres } from "../movies.json";
 
 const emit = defineEmits(["submitForm"]);
-const nameInput = ref(null);
-
-onMounted(() => nameInput.value.focus());
-
-const isMovieEditing = inject("isMovieEditing");
+const isModalOpened = inject("isModalOpened");
 const name = inject("name");
 const image = inject("image");
 const description = inject("description");
 const selectedGenres = inject("selectedGenres");
+const nameInput = ref(null);
+
+watch(
+  isModalOpened,
+  (isOpened) => {
+    isOpened && setTimeout(() => nameInput.value.focus(), 1);
+  },
+  {
+    flush: "post",
+  }
+);
 
 const isMovieValid = () => {
   return (
@@ -29,10 +36,7 @@ const submitHandler = () => {
 };
 </script>
 <template>
-  <form
-    @submit.prevent="submitHandler"
-    class="relative z-20 hide-scrollbar overflow-y-auto max-h-[80vh] rounded bg-white shadow-xl"
-  >
+  <form @submit.prevent="submitHandler">
     <div class="flex flex-col w-96 p-4">
       <div class="flex flex-col mb-4">
         <label for="name" class="mb-1 cursor-pointer">

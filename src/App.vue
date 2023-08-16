@@ -32,6 +32,7 @@ const inTheater = ref(false);
 const isMovieEditing = ref(false);
 const editedMovieId = ref(null);
 
+provide("isModalOpened", isModalOpened);
 provide("name", name);
 provide("image", image);
 provide("description", description);
@@ -169,7 +170,7 @@ const resetRatings = () => {
         </button>
       </div>
     </div>
-    <Modal v-if="isModalOpened" @close-modal="closeModal">
+    <Modal @close-modal="closeModal">
       <Form @movie-add="addMovie" @movie-update="updateMovie" />
     </Modal>
     <ul

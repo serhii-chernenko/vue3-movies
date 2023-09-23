@@ -2,8 +2,8 @@
   "name": "challenge-1",
   "version": "0.0.0",
   "scripts": {
-    "dev": "vite",
-    "build": "prettier --write src/ && vite build && sed -i '' 's/\"\\//\"\\/vue-training-movies\\//g' docs/index.html",
+    "dev": "bunx --bun vite",
+    "build": "prettier --write src/ && bunx --bun vite build",
     "preview": "vite preview --port 4173",
     "test:unit": "vitest --environment jsdom",
     "lint": "eslint . --ext .vue,.js,.jsx,.cjs,.mjs --fix --ignore-path .gitignore",

@@ -1,5 +1,7 @@
 <script setup>
 import { PencilIcon, StarIcon, TrashIcon } from "@heroicons/vue/24/solid";
+import MovieRating from "../components/MovieRating.vue";
+import MovieGenres from "../components/MovieGenres.vue";
 import { computed } from "vue";
 
 const props = defineProps([
@@ -35,40 +37,27 @@ const rate = (star, movie) => {
   <li class="flex">
     <div class="flex flex-col rounded-xl overflow-hidden bg-white">
       <div class="relative group overflow-hidden">
-        <div
-          v-if="movie.rating"
-          class="absolute z-20 top-2 right-2 flex items-center"
-        >
-          <StarIcon class="relative z-10 w-12 h-12 text-yellow-300" />
-          <span
-            class="absolute z-20 top-0 left-0 w-full h-full flex items-center justify-center"
-            >{{ movie.rating }}</span
-          >
-        </div>
-        <img
-          :src="movie.image"
-          :alt="movie.name"
-          width="200"
-          height="284"
-          :loading="imageLoadingType(index)"
-          :fetchpriority="imageFetchPriority(index)"
-          class="relative z-10 w-full mx-auto h-auto ratio-2/3 object-cover transition duration-500 ease-in-out transform group-hover:scale-110"
-        />
+        <MovieRating :rating="movie.rating" />
+        <router-link :to="`/movie/${movie.id}`">
+          <img
+            :src="movie.image"
+            :alt="movie.name"
+            width="200"
+            height="284"
+            :loading="imageLoadingType(index)"
+            :fetchpriority="imageFetchPriority(index)"
+            class="relative z-10 w-full mx-auto h-auto ratio-2/3 object-cover transition duration-500 ease-in-out transform group-hover:scale-110"
+          />
+        </router-link>
       </div>
       <div class="flex flex-col flex-grow p-4">
         <div class="flex-grow mb-4">
-          <p class="mb-1">
-            <strong class="text-2xl">{{ movie.name }}</strong>
-          </p>
-          <ul v-if="movie.genres" class="flex flex-wrap mb-4">
-            <li
-              v-for="(genre, index) in movie.genres"
-              :key="index"
-              class="bg-violet-500 text-white rounded-full px-2 py-0.25 mr-1 mb-1"
-            >
-              {{ genre }}
-            </li>
-          </ul>
+          <div class="mt-1">
+            <router-link :to="`/movie/${movie.id}`" class="inline-">
+              <strong class="text-2xl">{{ movie.name }}</strong>
+            </router-link>
+          </div>
+          <MovieGenres :genres="movie.genres" />
           <p>{{ movie.description }}</p>
         </div>
         <div class="flex justify-between">

@@ -1,19 +1,31 @@
 <script setup>
-import { watch, ref, inject } from "vue";
-import { genres } from "../movies.json";
+import { watch, ref, inject, nextTick } from "vue";
+import { useMoviesStore } from "@/stores/movies";
 
-const emit = defineEmits(["submitForm"]);
+const emit = defineEmits(["closeModal, submitForm"]);
+
 const isModalOpened = inject("isModalOpened");
 const name = inject("name");
 const image = inject("image");
 const description = inject("description");
 const selectedGenres = inject("selectedGenres");
+const isMovieEditing = inject("isMovieEditing");
 const nameInput = ref(null);
+
+const moviesStore = useMoviesStore();
+const genres = moviesStore.genres;
 
 watch(
   isModalOpened,
-  (isOpened) => {
-    isOpened && setTimeout(() => nameInput.value.focus(), 1);
+  async (isOpened) => {
+    isOpened && await nextTick(() => {
+      const title = nameInput.value.value;
+      nameInput.value.focus();
+
+      if (title) {
+        nameInput.value.setSelectionRange(title.length, title.length);
+      }
+    });
   },
   {
     flush: "post",
@@ -97,17 +109,6 @@ const submitHandler = () => {
             {{ genre }}
           </option>
         </select>
-      </div>
-      <div class="flex flex-col mb-4">
-        <label for="rating" class="flex items-center mb-1 cursor-pointer">
-          <input
-            type="checkbox"
-            id="rating"
-            name="rating"
-            class="border border-gray-300 rounded px-2 py-1"
-          />
-          <span class="ml-2">In Theater</span>
-        </label>
       </div>
       <div class="flex justify-end">
         <button
